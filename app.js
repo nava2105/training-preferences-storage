@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const userController = require('./src/controllers/userController');
-const authMiddleware = require('./src/middleware/authMiddleware');
+const userController = require('./src/controllers/TrainingPreferencesController');
+const authMiddleware = require('./src/middleware/AuthMiddleware');
 
 const app = express();
 

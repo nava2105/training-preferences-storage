@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, updateUser, findUserById } = require('../repositories/userRepository');
-const User = require('../models/userModel');
-const UserDTO = require('../dtos/userDTO');
+const { createTrainingPreferences, updateTrainingPreferences, findTrainingPreferencesByUserId } = require('../repositories/TrainingPreferencesRepository');
+const TrainingPreferences = require('../models/TrainingPreferencesModel');
+const TrainingPreferencesDto = require('../dtos/TrainingPreferencesDto');
 
 // Webhook route to process incoming POST events
 router.post('/training/preferences', async (req, res) => {
@@ -13,35 +13,35 @@ router.post('/training/preferences', async (req, res) => {
     console.log('Webhook event received:', event_type, data);
 
     switch (event_type) {
-      case 'create_user':
+      case 'create':
         // Ensure user_id is overridden with the authenticated userId
-        const createUserDTO = new UserDTO({
+        const createUserDTO = new TrainingPreferencesDto({
           ...data,
           user_id: userId, // Force userId from authMiddleware
         });
-        const createUserObject = new User(createUserDTO);
+        const createUserObject = new TrainingPreferences(createUserDTO);
 
-        await createUser(createUserObject);
-        console.log('User created via webhook:', createUserObject);
-        res.status(201).send('User created via webhook');
+        await createTrainingPreferences(createUserObject);
+        console.log('TrainingPreferences created via webhook:', createUserObject);
+        res.status(201).send('TrainingPreferences created via webhook');
         break;
 
-      case 'update_user':
+      case 'update':
         // Ensure user_id is overridden with the authenticated userId
-        const updateUserDTO = new UserDTO({
+        const updateUserDTO = new TrainingPreferencesDto({
           ...data,
           user_id: userId, // Force userId from authMiddleware
         });
-        const updateUserObject = new User(updateUserDTO);
+        const updateUserObject = new TrainingPreferences(updateUserDTO);
 
-        await updateUser(updateUserObject);
-        console.log('User updated via webhook:', updateUserObject);
+        await updateTrainingPreferences(updateUserObject);
+        console.log('TrainingPreferences updated via webhook:', updateUserObject);
         res.status(200).send(`User with ID ${updateUserObject.user_id} updated via webhook`);
         break;
 
-      case 'get_user_by_id':
+      case 'get':
         // Ensure the user can only retrieve their own data
-        const user = await findUserById(userId);
+        const user = await findTrainingPreferencesByUserId(userId);
         if (user) {
           res.status(200).json(user);
         } else {

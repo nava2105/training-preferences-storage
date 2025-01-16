@@ -1,4 +1,4 @@
-class UserDTO {
+class TrainingPreferencesDto {
   constructor({ user_id, days_per_week, hours_per_day, availability_start_hour, availability_end_hour }) {
     this.user_id = user_id;
     this.days_per_week = days_per_week;
@@ -8,4 +8,4 @@ class UserDTO {
   }
 }
 
-module.exports = UserDTO;
+module.exports = TrainingPreferencesDto;

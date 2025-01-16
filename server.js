@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { cassandraClient, initializeCassandra } = require('./src/factories/cassandraFactory');
+const { cassandraClient, initializeCassandra } = require('./src/factories/CassandraFactory');
 const app = require('./app');
 const PORT = process.env.PORT || 3000;
 

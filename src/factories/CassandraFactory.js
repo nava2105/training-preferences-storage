@@ -1,10 +1,10 @@
 require('dotenv').config();
-const cassandra = require('cassandra-driver');
+const Cassandra = require('cassandra-driver');
 
 const KEYSPACE = process.env.KEYSPACE;
 const TABLE = process.env.TABLE;
 
-const cassandraClient = new cassandra.Client({
+const CassandraClient = new Cassandra.Client({
   contactPoints: JSON.parse(process.env.CONTACT_POINTS),
   localDataCenter: process.env.LOCAL_DATA_CENTER,
 });
@@ -32,4 +32,4 @@ const initializeCassandra = async (client) => {
   await client.execute(createTableQuery);
 };
 
-module.exports = { cassandraClient, initializeCassandra, KEYSPACE, TABLE };
+module.exports = { cassandraClient: CassandraClient, initializeCassandra, KEYSPACE, TABLE };
